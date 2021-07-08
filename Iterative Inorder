@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+struct node* createNode(int data) {
+	struct node* newnode = (node*)malloc(sizeof(node));
+	newnode->data = data;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	return newnode;
+}
+
+void inorder(struct node* root) {
+	stack<node*> s;
+	// cout<<"into the function"<<endl;
+	struct node* curr = root;
+	while(curr != NULL || !s.empty()) {
+		// cout<<"Into the loop"<<endl;
+		if(curr != NULL) {
+			s.push(curr);
+			curr = curr->left;
+		}
+		else{
+			curr = s.top();
+			// cout<<"Into Printing"<<endl;
+			cout<<curr->data<<" ";
+			s.pop();
+			curr=curr->right;
+		}
+	}
+
+}
+
+int main() {
+	node* tree = createNode(5);
+    tree->left = createNode(3);
+    tree->right = createNode(6);
+    tree->left->left = createNode(2);
+    tree->left->right = createNode(4);
+
+    inorder(tree);
+
+	return 0;
+}
