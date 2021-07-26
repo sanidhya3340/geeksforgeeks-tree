@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+ 
+// Tree node class
+struct Node
+{
+    int data;
+     
+    
+    Node * left, * right;
+     
+    Node(int key)
+    {
+        data = key;
+        left = right = NULL;
+    }
+};
+ 
+vector<vector<int>> result;
+void diognalPrint(Node* root){
+    if(root == NULL) return;
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        int size = q.size();
+        vector<int> answer;
+        while(size--) {
+            Node* temp = q.front();
+            q.pop();
+            while(temp){
+                answer.push_back(temp->data);
+                if(temp->left)
+                    q.push(temp->left);
+                temp = temp->right;
+            }
+        }
+    result.push_back(answer);
+
+    }
+}
+ 
+int main()
+{
+    Node * root = new Node(8);
+    root -> left = new Node(4);
+    root -> right = new Node(10);
+    root -> left -> left = new Node(1);
+    root -> right -> right = new Node(14);
+    root -> right -> left = new Node(6);
+    root -> right -> left  -> left= new Node(4);
+    root -> right -> left -> right = new Node(7);
+    root -> right -> right -> left = new Node(13);
+
+    cout << "Diaognal traversal of the given binary tree :\n";
+    diognalPrint(root);
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        for (int j = 0; j < result[i].size(); j++)
+        {
+            cout << result[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
