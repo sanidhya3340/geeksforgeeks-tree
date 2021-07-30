@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+ 
+struct node
+{
+    int data;
+    node* left;
+    node* right;
+};
+
+node* createnode(int data) {
+    node* newnode = (node*)malloc(sizeof(node));
+    newnode->data = data;
+    newnode->left = newnode->right = NULL;
+    return newnode;
+}
+
+int find(int x,int in[],int si,int ei) {
+    // cout<<"Hello"<<endl;
+    
+    for(int i=si;i<=ei;i++){
+        if(in[i] == x) return i;
+    }
+
+}
+
+node* buildtree(int in[],int pre[],int si,int ei) {
+    if(si > ei) return NULL;
+
+    static int counter = 0;
+
+    node* root = createnode(pre[counter++]);
+    cout<<root->data<<" "<<si<<" "<<ei<<endl;
+    if(si == ei) return root;
+
+    int index = find(root->data,in,si,ei);
+
+    root->left = buildtree(in,pre,si,index-1);
+    root->right = buildtree(in,pre,index+1,ei);
+
+    return root;
+}
+
+void postorder(node* root) {
+    if(!root) return;
+    // cout<<"Into postorder func"<<endl;
+    postorder(root->left);
+    postorder(root->right);
+    cout<<root->data<<" ";
+}
+
+int main() {
+    int n;
+    cin>>n;
+    int in[n],pre[n];
+    for(int i=0;i<n;i++) {
+        cin>>in[i];
+    }
+    for(int i=0;i<n;i++) {
+        cin>>pre[i];
+    }
+
+    node* root = buildtree(in,pre,0,n-1);
+    cout<<"main-root"<<root->left->data<<endl;
+    cout<<"postorder"<<endl;
+
+    postorder(root);
+}
+ 
