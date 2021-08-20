@@ -1,0 +1,96 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+    node(int data)
+    {
+        this->data = data;
+        left = right = NULL;
+    }
+};
+
+void printInorder(struct node* node){
+    if(node == NULL) return;
+    printInorder(node->left);
+    cout<<node->data<<" ";
+    printInorder(node->right);
+}
+
+void printPreorder(struct node* node){
+    if(node == NULL) return;
+    cout<<node->data<<" ";
+    printPreorder(node->left);
+    printPreorder(node->right);
+}
+
+void printPostorder(struct node* node){
+    if(node == NULL) return;
+    printPostorder(node->left);
+    printPostorder(node->right);
+    cout<<node->data<<" ";
+}
+
+node* LCA(node* root,int n1,int n2){
+    if(root == NULL) return root;
+    if(root->data == n1 || root->data == n2) return root;
+
+    node* left = LCA(root->left, n1, n2);
+    node* right = LCA(root->right, n1, n2);
+
+    if(left != NULL && right!=NULL) return root;
+    if(left == NULL && right==NULL) return NULL;
+
+    if(left!=NULL) return LCA(root->left,n1,n2);
+
+    return LCA(root->right,n1,n2);
+
+}
+
+node* temp = NULL;
+
+node* kthAncestorDFS(node* root, int node, int &k){
+        if(!root) return NULL;
+        if(root->data == node || 
+            (temp = kthAncestorDFS(root->left,node,k)) ||
+            (temp = kthAncestorDFS(root->right,node,k)))
+        {
+            if(k>0) k--;
+            else if(k == 0){
+                cout<<"kth ancestor is: "<<root->data;
+                return NULL;
+            }
+            return root;
+        }
+}
+
+int main()
+{
+    struct node* root = new node(1);
+    root->left = new node(2);
+    root->right = new node(3);
+    root->left->left = new node(4);
+    root->left->right = new node(5);
+    // root->right->right = new node(7);
+    // root->right->left = new node(6);
+
+
+
+    cout<<"Inorder traversal:\n";
+    printInorder(root);
+
+    int node = 5;
+    int k = 2;
+
+    struct node* parent  = kthAncestorDFS(root, node, k);
+
+    if(parent) cout<<"-1";
+
+    // node* temp = LCA(root,5,7)/;
+
+    // cout<<"\nLCA: "<<temp->data;
+
+    return 0;
+}
