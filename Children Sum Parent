@@ -1,0 +1,24 @@
+class Solution{
+    public:
+    //Function to check whether all nodes of a tree have the value 
+    //equal to the sum of their child nodes.
+    int isSumProperty(Node *root)
+    {
+     // Add your code here
+     
+        if(!root || (!root->left && !root->right)) return 1;
+        bool l = isSumProperty(root->left);
+        bool r = isSumProperty(root->right);
+        int ld=0,rd=0;
+        if(root->left){
+            ld =root->left->data;
+        }
+        if(root->right){
+            rd = root->right->data;
+        }
+        if(l && r && ld+rd==root->data){
+            return 1;
+        }
+        return 0;
+    }
+};
