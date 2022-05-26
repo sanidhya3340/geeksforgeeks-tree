@@ -1,0 +1,27 @@
+class Solution
+{
+    public:
+    bool util(Node* root,int &count){
+        if(!root) return true;
+        bool left = util(root->left,count);
+        bool right = util(root->right,count);
+        if(left == false || right == false){
+            return false;
+        }
+        if (root->left && root->data != root->left->data)
+            return false;
+        if (root->right && root->data != root->right->data)
+            return false;
+            
+        count++;
+        return true;
+    }
+    int singlevalued(Node *root)
+    {
+        //code here
+        int count = 0;
+        util(root,count);
+        return count;
+    }
+    
+};
